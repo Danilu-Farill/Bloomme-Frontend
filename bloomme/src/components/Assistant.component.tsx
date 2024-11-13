@@ -3,19 +3,30 @@ import '../styles/Assistant.style.css';
 import { useEffect, useState } from 'react';
 import { useAssistantConnection } from '../services/Assistant.service';
 
+interface AssistantData {
+  assistant_id: number;
+  image: string;
+}
+
 export const Assistant = ({text}: { text:string }) =>{
   const [assistantImage, setAssistantImage] = useState("");
   const {assistantApi} = useAssistantConnection();
   const assistantId = localStorage.getItem("assistant");
 
-  useEffect(() =>{
+  useEffect(() => {
     const handleImage = async() => {
-      const response = await assistantApi();
-      const assistantData = response.find((assistant) => assistant.assistant_id === parseInt(assistantId));
-      setAssistantImage(assistantData.image);
+      const response: AssistantData[]  = await assistantApi();
+      const parsedAssistantId = assistantId ? parseInt(assistantId) : null;
+
+      if (parsedAssistantId !== null) {
+        const assistantData = response.find((assistant) => assistant.assistant_id === parsedAssistantId);
+        if (assistantData) {
+          setAssistantImage(assistantData.image);
+        }
+      }
     };
     handleImage();
-  },[assistantId]);
+  }, [assistantId, assistantApi]);
 
   return(
     <div className="container-assistant-component">
