@@ -8,7 +8,7 @@ import {
 import { GrInstagram } from "react-icons/gr";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import countryList from 'react-select-country-list'
+import countryList from 'react-select-country-list';
 import { useMemo, useState } from 'react';
 import Select from 'react-select';
 
@@ -24,8 +24,8 @@ function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
   const options = useMemo(() => countryList().getData(), []);
   const [country, setCountry] = useState('');
 
-  const changeHandler = (value) => {
-    setCountry(value.label || '');
+  const changeHandler = (value: { label: string; value: string } | null) => {
+    setCountry(value ? value.label : '');
   };
 
   const validateForm = (data: IRegister) => {
@@ -56,16 +56,16 @@ function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
     return [true, ""];
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = {
-      username: formData.get("username"),
-      email: formData.get("email"),
-      age: formData.get("age"),
+    const formData = new FormData(event.currentTarget);
+    const data: IRegister = {
+      username: formData.get("username") as string || "",
+      email: formData.get("email") as string || "",
+      age: formData.get("age") as string || "",
       country: country,
-      password: formData.get("password"),
+      password: formData.get("password") as string || "",
     };
 
     const validate = validateForm(data as IRegister);
