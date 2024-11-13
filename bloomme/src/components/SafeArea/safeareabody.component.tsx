@@ -5,9 +5,14 @@ import sadbunny from "../../assets/safearea/sadbunny.png";
 import "../../styles/SafeArea/safeareabody.style.css";
 import { Link } from "react-router-dom";
 
+interface Emotion {
+  emotion_id: number;
+  name: string;
+}
+
 const SafeAreaBody: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [emotions, setEmotions] = useState([]);
+  const [emotions, setEmotions] = useState<Emotion[]>([]);
   useEffect(() => {
     const fetchEmotions = async() => {
       try {

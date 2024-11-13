@@ -1,10 +1,18 @@
-const userUpdateModal = async ({
+interface UserData {
+  username: string;
+  password: string;
+  age: number;
+  country: string;
+  assistant_name: string;
+}
+
+const userUpdateModal = async({
   username,
   password,
   age,
   country,
   assistant_name,
-}: FormData) => {
+}: UserData) => {
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(
@@ -28,7 +36,7 @@ const userUpdateModal = async ({
       throw new Error("Error al actualizar el usuario");
     }
     const data = await response.json();
-    console.log("Usuario actualizado correctamente", data);
+    return data;
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Error inesperado";

@@ -4,15 +4,30 @@ import SecondStep from "../components/RegisterPage/SecondStep.component";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerPost } from "../services/Register.service";
-import girlRegister from '../assets/RegisterPage/girl-register.png'
+import girlRegister from '../assets/RegisterPage/girl-register.png';
+import { RegisterData } from "../models/Register.model";
 
 function Register() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<RegisterData>({
+    username: "",
+    email: "",
+    password: "",
+    age: "",
+    country: "",
+    assistant_id: null,
+    assistant_name: "",
+  });
   const navigate = useNavigate();
 
   const handleRegisterApi = async() => {
-    const response = await registerPost(data);
-    navigate("/login");
+    if (!data?.username) {
+      alert("Username is required");
+      return;
+    }
+    if (data) {
+      await registerPost(data);
+      navigate("/login");
+    }
   };
   useEffect(() => {
   }, [data]);

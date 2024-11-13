@@ -11,16 +11,13 @@ import { Link } from "react-router-dom";
 import countryList from 'react-select-country-list';
 import { useMemo, useState } from 'react';
 import Select from 'react-select';
+import { RegisterData } from "../../models/Register.model";
 
-interface IRegister {
-  username: string;
-  email: string;
-  password: string;
-  age: string;
-  country: string;
-}
+type FirstStepProps = {
+  setData: React.Dispatch<React.SetStateAction<RegisterData>>;
+};
 
-function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
+function FirstStep({ setData }: FirstStepProps) {
   const options = useMemo(() => countryList().getData(), []);
   const [country, setCountry] = useState('');
 
@@ -28,12 +25,12 @@ function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
     setCountry(value ? value.label : '');
   };
 
-  const validateForm = (data: IRegister) => {
+  const validateForm = (data: RegisterData) => {
     if (data.username === "") {
       return [false, "Username is required"];
     }
 
-    if (data.email === "") {
+    if (data.email === undefined) {
       return [false, "Email is required"];
     }
 
@@ -60,7 +57,7 @@ function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const data: IRegister = {
+    const data: RegisterData = {
       username: formData.get("username") as string || "",
       email: formData.get("email") as string || "",
       age: formData.get("age") as string || "",
@@ -68,7 +65,7 @@ function FirstStep({ setData }: { setData: (data: IRegister) => void }) {
       password: formData.get("password") as string || "",
     };
 
-    const validate = validateForm(data as IRegister);
+    const validate = validateForm(data as RegisterData);
 
     if (!validate[0]) {
       Swal.fire({

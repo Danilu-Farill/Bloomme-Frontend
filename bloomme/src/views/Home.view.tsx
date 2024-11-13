@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu } from "../components/Menu.component";
 import { Assistant } from "../components/Assistant.component";
-import rabitt from "../assets/rabbit.png";
-// import day from '../assets/phrases.svg';
 import quiz from "../assets/quiz.svg";
 import "../styles/Home.style.css";
 import { Link } from "react-router-dom";
@@ -12,6 +9,9 @@ import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
 const quotesImages = import.meta.glob("../assets/BloommeQuotes/*.png", {
   eager: true,
 });
+interface BackgroundItem {
+  image: string;
+}
 
 export const Home = () => {
   const [category, setCategory] = useState<{ name: string; quiz_id: number }[]>(
@@ -20,31 +20,31 @@ export const Home = () => {
   const { quizApi } = useQuizConnection();
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [background, setBackground] = useState([]);
+  const [background, setBackground] = useState<BackgroundItem[]>([]);
   const [randomImage, setRandomImage] = useState("");
   const { rewardApi } = useRewardConnection();
   const [selectedColor, setSelectedColor] = useState({
     color: "background",
     backgroundColor: localStorage.getItem("background") || "pink)",
   });
-  const handleImageSelect = (imageUrl) => {
+  const handleImageSelect = (imageUrl: string) => {
     const selectedBackground = {
       color: "background",
-      background: `url(${imageUrl})`,
+      backgroundColor: `url(${imageUrl})`,
     };
     setSelectedColor(selectedBackground);
     localStorage.setItem("background  ", `${imageUrl}`);
   };
 
   useEffect(() => {
-    const handleQuiz = async () => {
+    const handleQuiz = async() => {
       const response = await quizApi();
       setCategory(response);
     };
     handleQuiz();
   }, []);
   useEffect(() => {
-    const handleBackground = async () => {
+    const handleBackground = async() => {
       try {
         const response = await rewardApi("background");
         setBackground(response.rewards);
@@ -68,7 +68,7 @@ export const Home = () => {
   }, []);
   useEffect(() => {
     const imagePaths = Object.values(quotesImages).map(
-      (module) => module.default
+      (module: unknown) => (module as { default: string }).default,
     );
     const randomIndex = Math.floor(Math.random() * imagePaths.length);
     setRandomImage(imagePaths[randomIndex]);
@@ -91,7 +91,14 @@ export const Home = () => {
                 <div className="bg-white rounded-lg">
                   <div
                     className="home-avatar-card"
-                    style={{ backgroundImage: selectedColor?.background, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', padding: '10px', position: 'relative', height: '175px', width: '180px'}}
+                    style={{
+                      backgroundImage: selectedColor?.backgroundColor,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      padding: '10px',
+                      position: 'relative',
+                      height: '175px',
+                      width: '180px'}}
                   >
                     <img src={avatar} alt="Avatar" className="home-avatar" />
                     <p className="home-name absolute -bottom-4">{name}</p>

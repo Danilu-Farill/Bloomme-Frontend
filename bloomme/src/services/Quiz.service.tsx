@@ -1,3 +1,8 @@
+interface QuizAnswerParam {
+  questionId: number;
+  answerId: number;
+}
+
 export const useQuizConnection = () => {
   const quizApi = async() => {
     try {
@@ -43,7 +48,7 @@ export const useQuizConnection = () => {
       throw new Error(errorMessage);
     }
   };
-  const quizApiAnswers = async(param) => {
+  const quizApiAnswers = async(param: QuizAnswerParam) => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('https://bloomme-backend.onrender.com/api/finish-quiz/category', {
@@ -69,7 +74,7 @@ export const useQuizConnection = () => {
   return { quizApi, quizApiAI, quizApiAnswers };
 };
 
-export const sendApiResult = async(categoryid: any, results: number) => {
+export const sendApiResult = async(categoryid: number, results: number) => {
   try {
     const token = localStorage.getItem('token');
     const response = await fetch(`https://bloomme-backend.onrender.com/api/submit-score/category/${categoryid}`, {

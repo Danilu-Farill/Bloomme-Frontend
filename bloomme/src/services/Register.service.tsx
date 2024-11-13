@@ -1,4 +1,12 @@
-export const registerPost = async(data) => {
+interface RegisterData {
+  username: string;
+  email: string;
+  password: string;
+  age: string;
+  country: string;
+}
+
+export const registerPost = async(data: RegisterData) => {
   try {
     const response = await fetch("https://bloomme-backend.onrender.com/api/register", {
       method: "POST",

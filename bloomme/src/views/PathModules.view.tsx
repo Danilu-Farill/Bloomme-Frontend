@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Assistant } from "../components/Assistant.component";
 import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
 
-
 const myColors = [
   "cadbf3",
   "fed0d3",
@@ -21,9 +20,8 @@ const myColors = [
 
 function PathModules() {
   const navigate = useNavigate();
-  const { id, name } = useParams<{ id: string }>();
+  const { id, name } = useParams<{ id: string; name: string }>();
   const [modules, setModules] = useState<Module[]>([]);
-
 
   useEffect(() => {
     const fetchModules = async() => {
@@ -62,15 +60,15 @@ function PathModules() {
   );
 }
 
-
 interface Module {
- path_id: number;
- image: string;
- name: string;
- point: number;
- content: string;
- updateAt: number;
- createdAt: number;
+  module_id: number;
+  path_id: number;
+  image: string;
+  name: string;
+  point: number;
+  content: string;
+  updateAt: number;
+  createdAt: number;
 }
 
 interface CardProps {

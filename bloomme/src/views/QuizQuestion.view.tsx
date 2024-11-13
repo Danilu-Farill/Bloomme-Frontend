@@ -10,6 +10,16 @@ import { fetchModuleQuiz, sendApiResult, useQuizConnection } from "../services/Q
 import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
 import UiLoader from "../components/uiLoader.component";
 
+type Option = {
+  option_text: string;
+  is_correct: boolean;
+};
+
+type Question = {
+  question_text: string;
+  options: Option[];
+};
+
 export const QuizQuestion = () =>{
   const navigate = useNavigate();
   const { category, categoryId } = useParams();
@@ -18,7 +28,7 @@ export const QuizQuestion = () =>{
   const [isFinished, setIsFinished] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [isOpen, setIsOpen] = useState(false);
-  const [question, setQuestion] = useState([]);
+  const [question, setQuestion] = useState<Question[]>([]);
   const {quizApiAI} = useQuizConnection();
 
   const getModuleQuiz = async(moduleId: number) => {
@@ -67,7 +77,7 @@ export const QuizQuestion = () =>{
         questionScore = 100;
       }
     }
-    const totalScore = score + questionScore
+    const totalScore = score + questionScore;
     setScore(totalScore);
     if (currentQuestion < question.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -80,7 +90,8 @@ export const QuizQuestion = () =>{
 
   const sendResult = async(result: number) => {
     try {
-      const res = await sendApiResult(categoryId, result);
+      const id = categoryId ? parseInt(categoryId) : 0;
+      const res = await sendApiResult(id, result);
       console.log({res});
     } catch (error) {
       console.log({error});

@@ -1,16 +1,22 @@
 import { useState } from "react";
 import {  FaUser } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { RegisterData } from "../../models/Register.model";
 
-function SecondStep({ setData, handleRegisterApi }) {
-  const [assistant, setAssistant] = useState(null);
-  const handleSetAssistant = (value) => {
+type SecondStepProps = {
+  setData: React.Dispatch<React.SetStateAction<RegisterData>>;
+  handleRegisterApi: () => void;
+}
+
+function SecondStep({ setData, handleRegisterApi }: SecondStepProps) {
+  const [assistant, setAssistant] = useState<number | null>(null);
+  const handleSetAssistant = (value:number) => {
     setAssistant(value);
     setData((prevValue) => ({ ...prevValue, assistant_id: value }));
   };
 
   const handleButtonSubmit = () => {
-    const assistant_name = document.getElementById("assistant_name").value;
+    const assistant_name = (document.getElementById("assistant_name") as HTMLInputElement).value;
 
     if (!assistant_name || !assistant) {
       Swal.fire({
@@ -194,7 +200,7 @@ function SecondStep({ setData, handleRegisterApi }) {
           autoComplete="off"
           className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
           onChange={(e) => {
-            setData((prevValue) => ({ ...prevValue, assistant_name: e.target.value }))
+            setData((prevValue) => ({ ...prevValue, assistant_name: e.target.value }));
           }}
         />
       </div>

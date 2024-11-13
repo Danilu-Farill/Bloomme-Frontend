@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-
 import EmergencyModal from "./EmergencyModal.component";
 import sadbunny from "../../assets/safearea/sadbunny.png";
 import "../../styles/SafeArea/safeareabody.style.css";
 import { Link, useParams } from "react-router-dom";
 import { getExercisesByEmotion } from "../../services/safeArea.service";
 
+interface Exercise {
+  exercises_id: number;
+  name: string;
+}
+
 const SafeAreaExercisesBody: React.FC = () => {
   const { exercises } = useParams();
-  const [exercisesApi, setExercisesApi] = useState([]);
+  const [exercisesApi, setExercisesApi] = useState<Exercise[]>([]);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    const fetchEmotions = async () => {
+    const fetchEmotions = async() => {
       try {
         const response = await getExercisesByEmotion(exercises || "");
         setExercisesApi(response);
@@ -20,7 +24,7 @@ const SafeAreaExercisesBody: React.FC = () => {
         throw new Error(errorMessage);      }
     };
     fetchEmotions();
-  }, []);
+  }, [exercises]);
   const handleEmergencyClick = () => {
     setShowModal(true);
   };

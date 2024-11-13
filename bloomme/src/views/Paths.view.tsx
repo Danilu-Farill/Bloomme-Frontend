@@ -6,6 +6,7 @@ import { Assistant } from "../components/Assistant.component";
 import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
 
 interface IPath {
+  path_id: number;
   title: string;
   imageUrl: string;
 }
@@ -17,7 +18,7 @@ function Paths() {
   const handlePaths = async() => {
     try {
       const response = await pathsGet();
-      const data = response.map((path) => ({
+      const data = response.map((path: { path_id: number; name: string; image: string }) => ({
         path_id: path.path_id,
         title: path.name,
         imageUrl: path.image,

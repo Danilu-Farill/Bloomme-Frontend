@@ -20,7 +20,7 @@ interface IModule {
 function Module() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [module, setModule] = useState<IModule | null>(null);
+  const [module, setModule] = useState<IModule | null | string>(null);;
   useEffect(() => {
     const getModuleData = async() => {
       try {
@@ -38,7 +38,11 @@ function Module() {
   }, [id]);
 
   if (!module) {
-    return <p>Módulo no encontrado</p>;
+    return <p>Module not found</p>;
+  }
+
+  if (typeof module === "string") {
+    return <p>{module}</p>;
   }
 
   return (

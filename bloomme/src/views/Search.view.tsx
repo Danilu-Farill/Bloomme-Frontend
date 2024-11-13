@@ -2,7 +2,6 @@ import { useState, ChangeEvent } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { IStory } from "../models/Search.model";
-import { useSearchConnection } from "../services/Search.service";
 import '../styles/Search.style.css';
 import { Assistant } from "../components/Assistant.component";
 import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
@@ -10,7 +9,6 @@ import SafeAreaHeader from "../components/SafeArea/safeareaheader.component";
 export const Search = () => {
   const [modules, setModules] = useState<IStory[]>([]);
   const [ title, setTitle] = useState('');
-  const {searchApi} = useSearchConnection();
   const [isChecked, setIsChecked] = useState({
     sexuality: false,
     methods: false,
