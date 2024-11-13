@@ -26,11 +26,11 @@ function FirstStep({ setData }: FirstStepProps) {
   };
 
   const validateForm = (data: RegisterData) => {
-    if (data.username === "") {
+    if (!data.username) {
       return [false, "Username is required"];
     }
 
-    if (data.email === undefined) {
+    if (!data.email) {
       return [false, "Email is required"];
     }
 
@@ -39,15 +39,15 @@ function FirstStep({ setData }: FirstStepProps) {
       return [false, "Email is not valid"];
     }
 
-    if (data.age === "") {
+    if (!data.age) {
       return [false, "Age is required"];
     }
 
-    if (data.country === "") {
+    if (!data.country) {
       return [false, "Country is required"];
     }
 
-    if (data.password === "") {
+    if (!data.password) {
       return [false, "Password is required"];
     }
     return [true, ""];

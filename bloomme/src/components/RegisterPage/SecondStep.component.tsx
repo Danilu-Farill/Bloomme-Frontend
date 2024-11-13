@@ -6,7 +6,7 @@ import { RegisterData } from "../../models/Register.model";
 type SecondStepProps = {
   setData: React.Dispatch<React.SetStateAction<RegisterData>>;
   handleRegisterApi: () => void;
-}
+};
 
 function SecondStep({ setData, handleRegisterApi }: SecondStepProps) {
   const [assistant, setAssistant] = useState<number | null>(null);

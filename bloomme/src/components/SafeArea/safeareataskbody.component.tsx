@@ -9,7 +9,6 @@ import { generateTaskByExercises } from "../../services/safeArea.service";
 
 const SafeAreaTaskBody: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showAssistant, setShowAssistant] = useState(true);
   const [message, setMessage] = useState("");
   const { exercises, task } = useParams();
   useEffect(() => {
@@ -32,8 +31,6 @@ const SafeAreaTaskBody: React.FC = () => {
   };
 
   const handleCloseModal = () => setShowModal(false);
-  const handleAssistantClick = () => setShowAssistant(true);
-
   return (
     <div className="safehome-container">
       <style>
@@ -82,11 +79,9 @@ const SafeAreaTaskBody: React.FC = () => {
         Emergency Button
       </button>
       {showModal && <EmergencyModal onClose={handleCloseModal} />}
-      {showAssistant && (
-        <Assistant
-          text="If you need help I'm here to chat!"
-        />
-      )}
+      <Assistant
+        text="If you need help I'm here to chat!"
+      />
     </div>
   );
 };
