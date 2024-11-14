@@ -25,7 +25,6 @@ function Register() {
       return;
     }
     await registerPost(data);
-    console.log(data, "data");
     navigate("/login");
   };
 
